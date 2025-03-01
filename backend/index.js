@@ -1,16 +1,19 @@
 const express = require("express");
-const app=express();
 const mongoose= require("mongoose");
 
-mongoose.connect("")
+require('dotenv').config();
+
+
+const app=express();
+//mongoose.connect("")
 
 app.route("/").get((req,res)=>{
     res.json("App is running")
 });
 
-const PORT=process.env.port()||5000
+const PORT=process.env.PORT||5000;
 
 
-app.listen(5000,
-()=>console.log(`Server is Running ${PORT}`)
+app.listen(PORT,
+()=>console.log(`Server is Running at http://localhost:${PORT}`)
 );
