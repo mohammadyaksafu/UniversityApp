@@ -1,19 +1,19 @@
-const express = require("express");
-const mongoose= require("mongoose");
 
 require('dotenv').config();
+const express = require('express');
+const connectDB = require('./config/db');
+const cors = require('cors');
+const menuRoutes = require('./routes/cafeteriamenu.route');
 
+const app = express();
+app.use(express.json());
+app.use(cors());
 
-const app=express();
-//mongoose.connect("")
+// Connect to MongoDB
+connectDB();
 
-app.route("/").get((req,res)=>{
-    res.json("App is running")
-});
+// Routes
+app.use('/menu', menuRoutes);
 
-const PORT=process.env.PORT||5000;
-
-
-app.listen(PORT,
-()=>console.log(`Server is Running at http://localhost:${PORT}`)
-);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
