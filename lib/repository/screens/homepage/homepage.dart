@@ -3,6 +3,7 @@ import 'package:all_in_all_university_app/repository/screens/cafeteria/cafeteria
 import 'package:all_in_all_university_app/repository/screens/campusNavigation/campusNavigationscreen.dart';
 import 'package:all_in_all_university_app/repository/screens/classShedule/classSheduleScreen.dart';
 import 'package:all_in_all_university_app/repository/screens/eventclub/eventclubscreen.dart';
+import 'package:all_in_all_university_app/repository/screens/personalhelp/personalhelpAi.dart';
 import 'package:all_in_all_university_app/repository/widgets/FeatureTile.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +52,12 @@ class UniversityHome extends StatelessWidget {
               'Campus Navigation',
               CampusNavigationScreen(),
             ),
+            FetureTile.buildFeatureTile(
+              context,
+              Icons.help_center,
+              'Help Page',
+              PersonalHelpAI(),
+            )
           ],
         ),
       ),
