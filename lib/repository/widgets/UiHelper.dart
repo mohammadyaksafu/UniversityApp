@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class Uihelper {
   static CustomImage({required String image, double? height, double? width}) {
-    return Image.asset("assets/logos/$image"
-    , height: height, width: width,);
+    return Image.asset(
+      "assets/logos/$image"
+    , height: height, 
+    width: width,);
 
 }
 

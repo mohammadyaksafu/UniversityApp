@@ -24,8 +24,6 @@ class PreOrder {
 
 
 double parsePrice(String price) {
-  // Remove any non-numeric characters (e.g., $, commas)
   String cleanedPrice = price.replaceAll(RegExp(r'[^0-9.]'), '');
-  // Parse the cleaned string into a double
   return double.parse(cleanedPrice);
 }

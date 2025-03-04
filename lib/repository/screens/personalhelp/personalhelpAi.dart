@@ -1,4 +1,6 @@
+import 'package:all_in_all_university_app/repository/screens/personalhelp/facultycontactpage.dart';
 import 'package:flutter/material.dart';
+import 'ask_question_screen.dart'; // Import the new screen
 
 class PersonalHelpAI extends StatelessWidget {
   @override
@@ -19,39 +21,112 @@ class PersonalHelpAI extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Expanded(
-              child: ListView(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.question_answer, color: Colors.blue),
-                    title: Text('Ask a Question'),
-                    subtitle: Text('Get answers to your queries instantly'),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 1.2,
+                ),
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  IconData icon;
+                  Color color;
+                  String title;
+                  String subtitle;
+
+                  switch (index) {
+                    case 0:
+                      icon = Icons.question_answer;
+                      color = Colors.blue;
+                      title = 'Ask a Question';
+                      subtitle = 'Get answers to your queries instantly';
+                      break;
+                    case 1:
+                      icon = Icons.schedule;
+                      color = Colors.green;
+                      title = 'Schedule Assistance';
+                      subtitle = 'Manage your daily schedule efficiently';
+                      break;
+                    case 2:
+                      icon = Icons.person;
+                      color = Colors.orange;
+                      title = 'Personalized Advice';
+                      subtitle = 'Get AI-driven personal recommendations';
+                      break;
+                    case 3:
+                      icon = Icons.contact_mail;
+                      color = Colors.red;
+                      title = 'Faculty Contact';
+                      subtitle = 'Find and contact faculty members';
+                      break;
+                    default:
+                      icon = Icons.help;
+                      color = Colors.grey;
+                      title = '';
+                      subtitle = '';
+                  }
+
+                  return GestureDetector(
                     onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Feature coming soon!')),
-                      );
+                      if (index == 0) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AskQuestionScreen(),
+                          ),
+                        );
+                      } else if (index == 3) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => FacultyContactScreen(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Feature coming soon!')),
+                        );
+                      }
                     },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.schedule, color: Colors.green),
-                    title: Text('Schedule Assistance'),
-                    subtitle: Text('Manage your daily schedule efficiently'),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Feature coming soon!')),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.person, color: Colors.orange),
-                    title: Text('Personalized Advice'),
-                    subtitle: Text('Get AI-driven personal recommendations'),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Feature coming soon!')),
-                      );
-                    },
-                  ),
-                ],
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(icon, color: color, size: 40),
+                          SizedBox(height: 10),
+                          Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            subtitle,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

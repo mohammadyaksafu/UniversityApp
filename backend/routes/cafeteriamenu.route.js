@@ -2,7 +2,7 @@ const express = require('express');
 const MenuItem = require('../model/cafeteria.menuitem');
 const router = express.Router();
 
-// 📌 Fetch all menu items
+
 router.get('/', async (req, res) => {
   try {
     const menu = await MenuItem.find();

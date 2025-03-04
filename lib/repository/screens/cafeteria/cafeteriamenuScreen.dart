@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:all_in_all_university_app/repository/screens/cafeteria/orderScreen.dart';
 import 'package:all_in_all_university_app/repository/screens/cafeteria/preoder.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
   List<Map<String, String>> menuItems = [];
   bool isLoading = true;
   String errorMessage = '';
-  PreOrder preOrder = PreOrder(); // Instance of PreOrder class
+  PreOrder preOrder = PreOrder(); 
 
   @override
   void initState() {
@@ -22,7 +23,7 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
     fetchMenu();
   }
 
-  // Fetch menu items from the API
+  
   Future<void> fetchMenu() async {
     try {
       final response = await http.get(Uri.parse('http://localhost:5000/menu'));
@@ -54,17 +55,26 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cafeteria Menu'),
-        backgroundColor: Colors.green,
+        
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 28, 
+          fontWeight: FontWeight.bold,
+        ),
+
+        centerTitle: true,
+        backgroundColor: Appcolors.AppBaseColor,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_cart,
+            color: Colors.white,),
             onPressed: () {
-              // Navigate to the OrderScreen
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => OrderScreen(preOrder: preOrder),
@@ -75,22 +85,28 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
         ],
       ),
       body: isLoading
+          
           ? Center(
               child: CircularProgressIndicator(),
-            ) // Show loading spinner
+            ) 
+          
           : errorMessage.isNotEmpty
+              
               ? Center(
                   child: Text(errorMessage, style: TextStyle(color: Colors.red)),
                 )
+              
               : ListView.builder(
                   itemCount: menuItems.length,
                   itemBuilder: (context, index) {
                     final item = menuItems[index];
+                    
                     return Card(
                       margin: EdgeInsets.all(10),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10),
                       ),
+                      
                       child: ListTile(
                         contentPadding: EdgeInsets.all(10),
                         leading: Image.network(
@@ -99,6 +115,8 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
                           height: 60,
                           fit: BoxFit.cover,
                         ),
+                        
+                        
                         title: Text(
                           item['name']!,
                           style: TextStyle(
@@ -106,6 +124,8 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        
+                        
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -120,6 +140,8 @@ class _CafeteriaMenuScreenState extends State<CafeteriaMenuScreen> {
                             ),
                           ],
                         ),
+                        
+                        
                         trailing: IconButton(
                           icon: Icon(Icons.add_shopping_cart),
                           onPressed: () {

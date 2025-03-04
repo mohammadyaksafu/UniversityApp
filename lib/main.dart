@@ -1,4 +1,5 @@
 import 'package:all_in_all_university_app/repository/screens/homepage/homepage.dart';
+import 'package:all_in_all_university_app/repository/screens/login/loginScreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home:UniversityHome() ,
+      home:LoginScreen() ,
     );
   }
 }
