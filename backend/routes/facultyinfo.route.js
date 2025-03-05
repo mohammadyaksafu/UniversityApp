@@ -58,7 +58,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Delete a faculty contact by ID
+
 router.delete('/:id', async (req, res) => {
   try {
     const facultyContact = await Faculty.findByIdAndDelete(req.params.id);

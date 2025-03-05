@@ -1,7 +1,7 @@
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 
-class FetureTile {
+class FeatureTile {
   static buildFeatureTile(BuildContext context, IconData icon, String title, Widget page) {
     
     return GestureDetector(

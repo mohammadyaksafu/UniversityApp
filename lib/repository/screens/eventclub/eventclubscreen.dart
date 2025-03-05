@@ -1,46 +1,43 @@
+import 'dart:convert';
+import 'package:all_in_all_university_app/repository/screens/eventclub/eventandclubpage.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:all_in_all_university_app/repository/screens/eventclub/airecommandationscreen.dart';
 
-import 'airecommandationscreen.dart';
+class EventClubScreen extends StatefulWidget {
+  @override
+  _EventClubScreenState createState() => _EventClubScreenState();
+}
 
-class EventClubScreen extends StatelessWidget {
-  final List<Map<String, String>> events = [
-    {
-      'title': 'Tech Talk: AI Innovations',
-      'date': 'March 10, 2025',
-      'time': '4:00 PM - 6:00 PM',
-      'location': 'Auditorium',
-      'organizer': 'Tech Club'
-    },
-    {
-      'title': 'Music Fest 2025',
-      'date': 'March 15, 2025',
-      'time': '7:00 PM - 10:00 PM',
-      'location': 'Open Grounds',
-      'organizer': 'Music Club'
-    },
-    {
-      'title': 'Robotics Workshop',
-      'date': 'March 20, 2025',
-      'time': '10:00 AM - 1:00 PM',
-      'location': 'Lab 5',
-      'organizer': 'Robotics Club'
-    },
-  ];
+class _EventClubScreenState extends State<EventClubScreen> {
+  List<Map<String, dynamic>> events = [];
+  List<Map<String, dynamic>> clubs = [];
+  bool isLoggedIn = true; // Simulate user login state
 
-  final List<Map<String, String>> clubs = [
-    {
-      'name': 'Tech Club',
-      'description': 'Focuses on technology trends and innovations.',
-    },
-    {
-      'name': 'Music Club',
-      'description': 'Brings together music enthusiasts for events and performances.',
-    },
-    {
-      'name': 'Robotics Club',
-      'description': 'Explores robotics, automation, and AI.',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    fetchEvents();
+    fetchClubs();
+  }
+
+  Future<void> fetchEvents() async {
+    final response = await http.get(Uri.parse('http://localhost:5000/api/events'));
+    if (response.statusCode == 200) {
+      setState(() {
+        events = List<Map<String, dynamic>>.from(json.decode(response.body));
+      });
+    }
+  }
+
+  Future<void> fetchClubs() async {
+    final response = await http.get(Uri.parse('http://localhost:5000/api/clubs'));
+    if (response.statusCode == 200) {
+      setState(() {
+        clubs = List<Map<String, dynamic>>.from(json.decode(response.body));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +53,8 @@ class EventClubScreen extends StatelessWidget {
               itemCount: events.length,
               itemBuilder: (context, index) {
                 final event = events[index];
+                final isEventOpen = event['isOpen'];
+
                 return Card(
                   margin: EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
@@ -64,7 +63,7 @@ class EventClubScreen extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.all(10),
                     title: Text(
-                      event['title']!,
+                      event['title'],
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(
@@ -76,13 +75,14 @@ class EventClubScreen extends StatelessWidget {
                         Text('Organizer: ${event['organizer']}'),
                       ],
                     ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.event_available, color: Colors.green),
+                    trailing: GuardButton(
+                      condition: isEventOpen,
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('RSVP confirmed for ${event['title']}')),
                         );
                       },
+                      child: Icon(Icons.event_available, color: Colors.green),
                     ),
                   ),
                 );
@@ -102,6 +102,8 @@ class EventClubScreen extends StatelessWidget {
               itemCount: clubs.length,
               itemBuilder: (context, index) {
                 final club = clubs[index];
+                final isMember = club['isMember'];
+
                 return Card(
                   margin: EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
@@ -110,26 +112,33 @@ class EventClubScreen extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.all(10),
                     title: Text(
-                      club['name']!,
+                      club['name'],
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text(club['description']!),
+                    subtitle: Text(club['description']),
+                    trailing: GuardButton(
+                      condition: !isMember,
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Joined ${club['name']}')),
+                        );
+                      },
+                      child: Text('Join', style: TextStyle(color: Colors.white)),
+                    ),
                   ),
                 );
               },
             ),
           ),
-          ElevatedButton(
+          GuardButton(
+            condition: isLoggedIn,
             onPressed: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => AIRecommendationPage()),
-    );
-    }, child: Text('Get AI Event Recommendations'),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              textStyle: TextStyle(fontSize: 18),
-            ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AIRecommendationPage()),
+              );
+            },
+            child: Text('Get AI Event Recommendations'),
           ),
           SizedBox(height: 20),
         ],

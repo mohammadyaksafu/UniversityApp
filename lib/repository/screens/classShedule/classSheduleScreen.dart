@@ -4,6 +4,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ClassScheduleScreen extends StatefulWidget {
+  final String userRole;
+  final List<String> enrolledCourses;
+
+  ClassScheduleScreen({required this.userRole, required this.enrolledCourses});
+
   @override
   _ClassScheduleScreenState createState() => _ClassScheduleScreenState();
 }
@@ -20,8 +25,18 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
   Future<void> fetchSchedule() async {
     final response = await http.get(Uri.parse('http://localhost:5000/schedule'));
     if (response.statusCode == 200) {
+      final List<dynamic> fetchedSchedule = json.decode(response.body);
       setState(() {
-        schedule = List<Map<String, dynamic>>.from(json.decode(response.body));
+        if (widget.userRole == 'student') {
+          // Filter the schedule based on enrolled courses
+          schedule = fetchedSchedule
+              .where((classInfo) => widget.enrolledCourses.contains(classInfo['subject']))
+              .toList()
+              .cast<Map<String, dynamic>>();
+        } else {
+          // If the user is not a student, show all courses
+          schedule = fetchedSchedule.cast<Map<String, dynamic>>();
+        }
       });
     }
   }
@@ -55,8 +70,9 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                         spreadRadius: 2,
                         blurRadius: 5,
                         offset: Offset(0, 3),
-                      ),
+                      )
                     ],
+
                   ),
                   child: Card(
                     elevation: 0, // Remove default card shadow

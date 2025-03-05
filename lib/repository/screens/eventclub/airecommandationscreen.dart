@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
 class AIRecommendationPage extends StatefulWidget {
   @override
@@ -8,7 +7,6 @@ class AIRecommendationPage extends StatefulWidget {
 }
 
 class _AIRecommendationPageState extends State<AIRecommendationPage> {
-  final String apiUrl = 'http://127.0.0.1:5000/recommend/12345'; // Update with Flask API URL
   List<String> recommendations = [];
   bool isLoading = false;
   String errorMessage = '';
@@ -17,24 +15,37 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
     setState(() {
       isLoading = true;
       errorMessage = '';
+      recommendations.clear();
     });
 
     try {
-      final response = await http.get(
-        Uri.parse(apiUrl),
-        headers: {'Content-Type': 'application/json'},
-      );
+      // Create a prompt for event recommendations
+      final prompt = 'Generate 5 unique event recommendations.'
+                     'from fetching data this bangladeshi university';
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+      // Use Gemini to generate recommendations
+      await Gemini.instance.prompt(
+        parts: [Part.text(prompt)],
+      ).then((value) {
+        // Process the response
+        final responseText = value?.output ?? '';
+        
+        // Split the response into individual recommendations
+        final List<String> fetchedRecommendations = responseText
+            .split('\n')
+            .where((recommendation) => 
+              recommendation.trim().isNotEmpty && 
+              !recommendation.toLowerCase().contains('here are'))
+            .toList();
+
         setState(() {
-          recommendations = List<String>.from(data['recommendations']);
+          recommendations = fetchedRecommendations;
         });
-      } else {
+      }).catchError((e) {
         setState(() {
-          errorMessage = 'Failed to load recommendations: ${response.body}';
+          errorMessage = 'Error fetching recommendations: $e';
         });
-      }
+      });
     } catch (e) {
       setState(() {
         errorMessage = 'Error: $e';
@@ -60,17 +71,20 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
           children: [
             ElevatedButton(
               onPressed: fetchRecommendations,
-              child: Text('Get AI Event Recommendations'),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 textStyle: TextStyle(fontSize: 18),
               ),
+              child: Text('Get AI Event Recommendations'),
             ),
             SizedBox(height: 20),
             if (isLoading)
               Center(child: CircularProgressIndicator())
             else if (errorMessage.isNotEmpty)
-              Center(child: Text(errorMessage, style: TextStyle(color: Colors.red)))
+              Center(child: Text(
+                errorMessage, 
+                style: TextStyle(color: Colors.red)
+              ))
             else if (recommendations.isEmpty)
               Center(child: Text('No recommendations available'))
             else

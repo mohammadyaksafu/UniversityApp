@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
+import 'package:all_in_all_university_app/repository/screens/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   bool _isPasswordVisible = false;
   bool _isLoading = false;
   String _errorMessage = '';
@@ -68,25 +68,31 @@ class _LoginScreenState extends State<LoginScreen> {
     switch (_selectedUserType) {
       case 'Student':
         Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(builder: (context) => StudentDashboard(userData: userData))
+          context,
+          MaterialPageRoute(
+            builder: (context) => UniversityHome(
+              userRole: _selectedUserType, // Pass the user role
+              enrolledCourses: userData['enrolledCourses'] ?? [], // Pass enrolled courses from the API response
+            ),
+          ),
         );
         break;
+      // Uncomment and implement other cases as needed
       // case 'Teacher':
       //   Navigator.pushReplacement(
-      //     context, 
+      //     context,
       //     MaterialPageRoute(builder: (context) => TeacherDashboard(userData: userData))
       //   );
       //   break;
       // case 'Cafeteria Manager':
       //   Navigator.pushReplacement(
-      //     context, 
+      //     context,
       //     MaterialPageRoute(builder: (context) => CafeteriaManagerDashboard(userData: userData))
       //   );
       //   break;
       // case 'Club Manager':
       //   Navigator.pushReplacement(
-      //     context, 
+      //     context,
       //     MaterialPageRoute(builder: (context) => ClubManagerDashboard(userData: userData))
       //   );
       //   break;
@@ -107,21 +113,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: 50),
-                      Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-
-                      padding: EdgeInsets.all(8),
-
-                      child: Image.asset(
-                        'images/mistlog.png',
-                        height: 110,
-                        width: 110,
-                        fit: BoxFit.contain,
-                      ),
-
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    padding: EdgeInsets.all(8),
+                    child: Image.asset(
+                      'images/mistlog.png',
+                      height: 110,
+                      width: 110,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                   SizedBox(height: 30),
                   Text(
                     'University Login',
@@ -252,60 +255,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class StudentDashboard extends StatelessWidget {
-  final Map<String, dynamic> userData;
-  
-  const StudentDashboard({Key? key, required this.userData}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Student Dashboard'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Welcome, ${userData['user']['name']}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Email: ${userData['user']['email']}',
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Courses Enrolled:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            ...userData['courses'].map<Widget>((course) {
-              return ListTile(
-                title: Text(course['name']),
-                subtitle: Text('Grade: ${course['grade']}'),
-              );
-            }).toList(),
-          ],
         ),
       ),
     );

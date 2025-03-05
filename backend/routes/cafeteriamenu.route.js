@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 📌 Add a new menu item
+
 router.post('/', async (req, res) => {
   try {
     const newItem = new MenuItem(req.body);
@@ -23,7 +23,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 📌 Delete a menu item
+
 router.delete('/:id', async (req, res) => {
   try {
     await MenuItem.findByIdAndDelete(req.params.id);

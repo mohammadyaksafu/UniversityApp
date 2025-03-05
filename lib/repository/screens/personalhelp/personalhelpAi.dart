@@ -1,4 +1,6 @@
 import 'package:all_in_all_university_app/repository/screens/personalhelp/facultycontactpage.dart';
+import 'package:all_in_all_university_app/repository/screens/personalhelp/personalized_advice_screen.dart';
+import 'package:all_in_all_university_app/repository/screens/personalhelp/schedule_assistance_screen.dart';
 import 'package:flutter/material.dart';
 import 'ask_question_screen.dart'; // Import the new screen
 
@@ -75,17 +77,28 @@ class PersonalHelpAI extends StatelessWidget {
                             builder: (context) => AskQuestionScreen(),
                           ),
                         );
-                      } else if (index == 3) {
+                      }else if (index == 1) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ScheduleAssistanceScreen(),
+                          ),
+                        );
+                      }
+                      else if (index == 2) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PersonalizedAdviceScreen(),
+                          ),
+                        );
+                      }
+
+                       else if (index == 3) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => FacultyContactScreen(),
                           ),
                         );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Feature coming soon!')),
-                        );
-                      }
+                      } 
                     },
                     child: Container(
                       decoration: BoxDecoration(
