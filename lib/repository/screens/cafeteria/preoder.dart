@@ -23,6 +23,7 @@ class PreOrder {
 }
 
 
+
 double parsePrice(String price) {
   String cleanedPrice = price.replaceAll(RegExp(r'[^0-9.]'), '');
   return double.parse(cleanedPrice);
