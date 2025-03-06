@@ -1,7 +1,10 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 
 class AskQuestionScreen extends StatefulWidget {
+  const AskQuestionScreen({super.key});
+
   @override
   _AskQuestionScreenState createState() => _AskQuestionScreenState();
 }
@@ -17,13 +20,13 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
 
     setState(() {
       _isLoading = true;
-      _response = ''; // Clear previous response
+      _response = ''; 
     });
 
     try {
-      // Use the `prompt` method to send the question
+      
       await Gemini.instance.prompt(parts: [
-        Part.text(question), // Send the user's question as a text part
+        Part.text(question), 
       ]).then((value) {
         setState(() {
           _response = value?.output ?? 'No response from Gemini';
@@ -55,17 +58,13 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Appcolors.AppBaseColor,
         elevation: 0,
         centerTitle: true,
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.blueAccent, Colors.lightBlueAccent],
-          ),
+          color: Appcolors.AppBaseColor,
         ),
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -76,65 +75,85 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
+               
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
+                  
                   child: TextField(
                     controller: _controller,
+                    
                     decoration: InputDecoration(
                       labelText: 'Enter your question',
-                      labelStyle: TextStyle(color: Colors.blueAccent),
+                      labelStyle: TextStyle(
+                        color: Colors.black
+                        ),
+                      
                       border: InputBorder.none,
-                      icon: Icon(Icons.question_answer, color: Colors.blueAccent),
+                      
+                      icon: Icon(
+                        Icons.question_answer,
+                       color: Appcolors.AppBaseColor
+                       ),
                       hintText: 'Type your question here...',
-                      hintStyle: TextStyle(color: Colors.grey),
+                      hintStyle: TextStyle(
+                        color: Colors.grey
+                        ),
                     ),
                     maxLines: 3,
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
+              
               SizedBox(height: 20),
+              
               AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 width: _isLoading ? 60 : 150,
                 height: 50,
+                
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Colors.blueAccent, Colors.lightBlueAccent],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(_isLoading ? 30 : 10),
+                color: Appcolors.AppBaseColor,
+                borderRadius: BorderRadius.circular(
+                  _isLoading ? 20 : 10),
                 ),
+                
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _sendQuestion,
+                  
                   style: ElevatedButton.styleFrom(
                     shadowColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(_isLoading ? 30 : 10),
                     ),
                   ),
+                  
                   child: _isLoading
-                      ? CircularProgressIndicator(color: Colors.white)
+                      ? CircularProgressIndicator(
+                        color: Appcolors.AppBaseColor)
                       : Text(
                           'Ask',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                 ),
               ),
+             
               SizedBox(height: 20),
-              // Conditionally render the response Card only if _response is not empty
+             
               if (_response.isNotEmpty)
                 Expanded(
+                  
                   child: Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
+                   
+                   
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
                       child: SingleChildScrollView(

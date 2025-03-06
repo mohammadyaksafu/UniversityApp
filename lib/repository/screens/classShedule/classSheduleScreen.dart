@@ -1,13 +1,11 @@
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class ClassScheduleScreen extends StatefulWidget {
   final String userRole;
   final List<String> enrolledCourses;
 
-  ClassScheduleScreen({required this.userRole, required this.enrolledCourses});
+  const ClassScheduleScreen({super.key, required this.userRole, required this.enrolledCourses});
 
   @override
   _ClassScheduleScreenState createState() => _ClassScheduleScreenState();
@@ -19,26 +17,44 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
   @override
   void initState() {
     super.initState();
-    fetchSchedule();
+    // Initialize the schedule with static data
+    initializeStaticSchedule();
   }
 
-  Future<void> fetchSchedule() async {
-    final response = await http.get(Uri.parse('http://localhost:5000/schedule'));
-    if (response.statusCode == 200) {
-      final List<dynamic> fetchedSchedule = json.decode(response.body);
-      setState(() {
-        if (widget.userRole == 'student') {
-          // Filter the schedule based on enrolled courses
-          schedule = fetchedSchedule
-              .where((classInfo) => widget.enrolledCourses.contains(classInfo['subject']))
-              .toList()
-              .cast<Map<String, dynamic>>();
-        } else {
-          // If the user is not a student, show all courses
-          schedule = fetchedSchedule.cast<Map<String, dynamic>>();
-        }
-      });
-    }
+  void initializeStaticSchedule() {
+    final List<Map<String, dynamic>> staticSchedule = [
+      {
+        'subject': 'Mathematics',
+        'time': '10:00 AM - 11:30 AM',
+        'faculty': 'Dr. John Doe',
+        'room': 'Room 101'
+      },
+      {
+        'subject': 'Physics',
+        'time': '12:00 PM - 1:30 PM',
+        'faculty': 'Dr. Jane Smith',
+        'room': 'Room 202'
+      },
+      {
+        'subject': 'Chemistry',
+        'time': '2:00 PM - 3:30 PM',
+        'faculty': 'Dr. Alice Johnson',
+        'room': 'Room 303'
+      },
+      // Add more static data as needed
+    ];
+
+    setState(() {
+      if (widget.userRole == 'student') {
+        // Filter the schedule based on enrolled courses
+        schedule = staticSchedule
+            .where((classInfo) => widget.enrolledCourses.contains(classInfo['subject']))
+            .toList();
+      } else {
+        // If the user is not a student, show all courses
+        schedule = staticSchedule;
+      }
+    });
   }
 
   @override
@@ -72,7 +88,6 @@ class _ClassScheduleScreenState extends State<ClassScheduleScreen> {
                         offset: Offset(0, 3),
                       )
                     ],
-
                   ),
                   child: Card(
                     elevation: 0, // Remove default card shadow

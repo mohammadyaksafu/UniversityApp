@@ -9,8 +9,8 @@ class GuardButton extends StatelessWidget {
     required this.condition,
     required this.onPressed,
     required this.child,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

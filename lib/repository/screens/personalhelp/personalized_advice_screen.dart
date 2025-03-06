@@ -1,7 +1,10 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 
 class PersonalizedAdviceScreen extends StatefulWidget {
+  const PersonalizedAdviceScreen({super.key});
+
   @override
   _PersonalizedAdviceScreenState createState() => _PersonalizedAdviceScreenState();
 }
@@ -49,7 +52,7 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Personalized Advice'),
-        backgroundColor: Colors.orange.shade800,
+        backgroundColor: Appcolors.AppBaseColor,
         elevation: 0,
         centerTitle: true,
       ),
@@ -59,48 +62,69 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
         child: Column(
           children: [
             TextField(
+              
               controller: _inputController,
+              
               decoration: InputDecoration(
                 labelText: 'Enter your query or preference',
-                labelStyle: TextStyle(color: Colors.orange.shade800),
+                labelStyle: TextStyle(
+                  color: Appcolors.AppBaseColor
+                  ),
+               
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange.shade800),
+                  borderSide: BorderSide(
+                    color: Appcolors.AppBaseColor
+                    ),
                 ),
+               
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.orange.shade800),
+                  borderSide: BorderSide(
+                    color: Appcolors.AppBaseColor
+                    ),
                 ),
               ),
+              
               maxLines: 3,
             ),
+          
             SizedBox(height: 16),
+            
             ElevatedButton(
               onPressed: _isLoading ? null : _getAdvice,
+              
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange.shade800,
+                backgroundColor: Appcolors.AppBaseColor,
                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+              
               child: _isLoading
-                  ? CircularProgressIndicator(color: Colors.white)
+                  ? CircularProgressIndicator(
+                    color: Appcolors.AppBaseColor
+                    )
                   : Text(
                       'Get Advice',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(fontSize: 16,
+                       color: Colors.black
+                       ),
                     ),
             ),
+            
             SizedBox(height: 16),
+            
             if (_advice.isNotEmpty)
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.orange.shade100,
+                  color: Appcolors.AppBaseColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   _advice,
                   style: TextStyle(
-                    color: Colors.orange.shade900,
+                    color: Appcolors.AppBaseColor,
                     fontSize: 16,
                   ),
                 ),

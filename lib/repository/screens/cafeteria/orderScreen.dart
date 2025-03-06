@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class OrderScreen extends StatelessWidget {
   final PreOrder preOrder;
 
-  OrderScreen({required this.preOrder});
+  const OrderScreen({super.key, required this.preOrder});
 
   @override
   Widget build(BuildContext context) {

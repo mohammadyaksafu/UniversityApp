@@ -1,12 +1,15 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleAssistanceScreen extends StatefulWidget {
+  const ScheduleAssistanceScreen({super.key});
+
   @override
   _ScheduleAssistanceScreenState createState() => _ScheduleAssistanceScreenState();
 }
 
 class _ScheduleAssistanceScreenState extends State<ScheduleAssistanceScreen> {
-  List<Map<String, dynamic>> _scheduleItems = [];
+  final List<Map<String, dynamic>> _scheduleItems = [];
 
   void _addScheduleItem() {
     showDialog(
@@ -35,7 +38,7 @@ class _ScheduleAssistanceScreenState extends State<ScheduleAssistanceScreen> {
               ),
               ListTile(
                 title: Text('Time'),
-                subtitle: Text('${time.format(context)}'),
+                subtitle: Text(time.format(context)),
                 onTap: () async {
                   TimeOfDay? picked = await showTimePicker(
                     context: context,
@@ -80,7 +83,14 @@ class _ScheduleAssistanceScreenState extends State<ScheduleAssistanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedule Assistance'),
+        title: Text('Schedule Assistance',
+        style: TextStyle(
+          fontSize: 24,
+          color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Appcolors.AppBaseColor,
         actions: [
           IconButton(
             icon: Icon(Icons.add),

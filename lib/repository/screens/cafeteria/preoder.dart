@@ -1,5 +1,5 @@
 class PreOrder {
-  List<Map<String, String>> _items = [];
+  final List<Map<String, String>> _items = [];
 
   void addItem(Map<String, String> item) {
     _items.add(item);

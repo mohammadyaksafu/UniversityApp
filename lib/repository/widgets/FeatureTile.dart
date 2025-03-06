@@ -4,42 +4,42 @@ import 'package:flutter/material.dart';
 class FeatureTile {
   static buildFeatureTile(BuildContext context, IconData icon, String title, Widget page) {
     
-    return GestureDetector(
+    return Card(
      
-      onTap: () {
-
-        Navigator.push(
-          context,
-
-          MaterialPageRoute(builder: (context) => page),
-        );
-      },
-
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(
-
-        borderRadius: BorderRadius.circular(10)),
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [
-            Icon(icon, size: 50,
-            color: Appcolors.AppBaseColor
-            ),
-
-            SizedBox(height: 10),
-
-            Text(
-            title,
-            textAlign: TextAlign.center, 
-            style: TextStyle(
-              fontSize: 18, 
-              fontWeight: FontWeight.bold,
-              
-              )),
-          ],
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 40,
+                color: Appcolors.AppBaseColor,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

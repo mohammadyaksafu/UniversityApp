@@ -10,9 +10,12 @@ import 'package:flutter/material.dart';
 
 class UniversityHome extends StatelessWidget {
   final String userRole;
-  final List<String> enrolledCourses; // Add other characteristics if needed
-
-  UniversityHome({required this.userRole, required this.enrolledCourses});
+  final List<String> enrolledCourses;
+  const UniversityHome({
+    super.key,
+    required this.userRole,
+    required this.enrolledCourses,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,7 @@ class UniversityHome extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -40,17 +43,18 @@ class UniversityHome extends StatelessWidget {
               padding: EdgeInsets.all(8),
               child: Image.asset(
                 'images/mistlog.png',
-                height: 110,
-                width: 110,
+                height: 80,
+                width: 80,
                 fit: BoxFit.contain,
               ),
             ),
             const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                crossAxisCount: 2, 
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio:1.6,
                 children: [
                   FeatureTile.buildFeatureTile(
                     context,
@@ -69,14 +73,14 @@ class UniversityHome extends StatelessWidget {
                     Icons.schedule,
                     'Class Schedules',
                     ClassScheduleScreen(
-                      userRole: userRole, // Pass user role
-                      enrolledCourses: enrolledCourses, // Pass enrolled courses
+                      userRole: userRole,
+                      enrolledCourses: enrolledCourses,
                     ),
                   ),
                   FeatureTile.buildFeatureTile(
                     context,
                     Icons.groups,
-                    'Event & Club Management',
+                    'Event & Club',
                     EventClubScreen(),
                   ),
                   FeatureTile.buildFeatureTile(

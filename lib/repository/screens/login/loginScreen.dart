@@ -1,10 +1,10 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:all_in_all_university_app/repository/screens/homepage/homepage.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -31,71 +31,55 @@ class _LoginScreenState extends State<LoginScreen> {
       _errorMessage = '';
     });
 
-    try {
-      String userTypeEndpoint = _selectedUserType.toLowerCase().replaceAll(' ', '').replaceAll('manager', 'manager');
+    // Simulate a network call delay
+    await Future.delayed(Duration(seconds: 2));
 
-      final response = await http.post(
-        Uri.parse('http://localhost:5000/api/$userTypeEndpoint/login'),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'email': _emailController.text.trim(),
-          'password': _passwordController.text
-        }),
-      );
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
 
+    // Find the user in the static list
+    final user = staticUsers.firstWhere(
+      (user) => user.email == email && user.password == password && user.userType == _selectedUserType,
+      orElse: () => StaticUser(email: '', password: '', userType: ''),
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (user.email.isNotEmpty) {
+      // Navigate to the appropriate dashboard
+      _navigateToDashboard(user);
+    } else {
       setState(() {
-        _isLoading = false;
-      });
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        _navigateToDashboard(responseData);
-      } else {
-        final errorData = json.decode(response.body);
-        setState(() {
-          _errorMessage = errorData['message'] ?? 'Login failed';
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Network error. Please try again.';
+        _errorMessage = 'Invalid email, password, or user type';
       });
     }
   }
 
-  void _navigateToDashboard(Map<String, dynamic> userData) {
-    switch (_selectedUserType) {
+  void _navigateToDashboard(StaticUser user) {
+    switch (user.userType) {
       case 'Student':
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => UniversityHome(
-              userRole: _selectedUserType, // Pass the user role
-              enrolledCourses: userData['enrolledCourses'] ?? [], // Pass enrolled courses from the API response
+              userRole: user.userType,
+              enrolledCourses: [], // You can add static data here if needed
             ),
           ),
         );
         break;
-      // Uncomment and implement other cases as needed
-      // case 'Teacher':
-      //   Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => TeacherDashboard(userData: userData))
-      //   );
-      //   break;
-      // case 'Cafeteria Manager':
-      //   Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => CafeteriaManagerDashboard(userData: userData))
-      //   );
-      //   break;
-      // case 'Club Manager':
-      //   Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => ClubManagerDashboard(userData: userData))
-      //   );
-      //   break;
+      // Implement other cases as needed
+      case 'Teacher':
+        // Navigate to Teacher Dashboard
+        break;
+      case 'Cafeteria Manager':
+        // Navigate to Cafeteria Manager Dashboard
+        break;
+      case 'Club Manager':
+        // Navigate to Club Manager Dashboard
+        break;
     }
   }
 
@@ -116,6 +100,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.green.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
                     ),
                     padding: EdgeInsets.all(8),
                     child: Image.asset(
@@ -130,25 +121,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     'University Login',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: Appcolors.AppBaseColor,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                   SizedBox(height: 20),
                   DropdownButtonFormField<String>(
                     value: _selectedUserType,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person_outline),
+                      prefixIcon: Icon(Icons.person_outline,
+                      color: Appcolors.AppBaseColor),
                       labelText: 'User Type',
+                      labelStyle: TextStyle(
+                        color: Appcolors.AppBaseColor
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color:Appcolors.AppBaseColor),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Appcolors.AppBaseColor),
                       ),
                     ),
                     items: userTypes.map((String type) {
                       return DropdownMenuItem(
                         value: type,
-                        child: Text(type),
+                        child: Text(type, 
+                        style: TextStyle(
+                        color: Appcolors.AppBaseColor)),
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
@@ -161,10 +166,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email_outlined),
+                      prefixIcon: Icon(
+                      Icons.email_outlined, 
+                      color: Appcolors.AppBaseColor),
                       labelText: 'Email',
+                      labelStyle: TextStyle(
+                      color: Appcolors.AppBaseColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                        color:Appcolors.AppBaseColor),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                        color: Appcolors.AppBaseColor
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -183,14 +200,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.lock_outline),
+                      prefixIcon: Icon(Icons.lock_outline, 
+                      color:Appcolors.AppBaseColor),
                       labelText: 'Password',
+                      labelStyle: TextStyle(
+                        color: Appcolors.AppBaseColor),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color:Appcolors.AppBaseColor
+                          ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: 
+                        Appcolors.AppBaseColor),
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          color: Appcolors.AppBaseColor,
                         ),
                         onPressed: () {
                           setState(() {
@@ -231,24 +260,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      backgroundColor:Appcolors.AppBaseColor,
+                      elevation: 5,
+                      shadowColor: Appcolors.AppBaseColor.withOpacity(0.3),
                     ),
                     child: _isLoading
-                        ? CircularProgressIndicator(color: Colors.white)
+                        ? CircularProgressIndicator(
+                          color: Colors.white)
                         : Text(
                             'Login',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontFamily: 'Poppins',
                             ),
                           ),
                   ),
+                  SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
                       // Implement forgot password functionality
                     },
                     child: Text(
                       'Forgot Password?',
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(
+                        color: Appcolors.AppBaseColor, fontFamily: 'Poppins'),
                     ),
                   ),
                 ],
@@ -260,3 +297,22 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+class StaticUser {
+  final String email;
+  final String password;
+  final String userType;
+
+  StaticUser({
+    required this.email,
+    required this.password,
+    required this.userType,
+  });
+}
+
+final List<StaticUser> staticUsers = [
+  StaticUser(email: 'student@gmail.com', password: 'student123', userType: 'Student'),
+  StaticUser(email: 'teacher@gmail.com', password: 'teacher123', userType: 'Teacher'),
+  StaticUser(email: 'cafeteria@gmail.com', password: 'cafeteria123', userType: 'Cafeteria Manager'),
+  StaticUser(email: 'club@gmail.com', password: 'club123', userType: 'Club Manager'),
+];

@@ -39,6 +39,12 @@ dependencies:
   url_launcher: ^6.3.1
   flutter_gemini: ^3.0.0
   realm: ^20.0.1
+  flutter_map: ^8.1.0
+  latlong2: ^0.9.1
+  ar_flutter_plugin: ^0.6.0
+  flutter_local_notifications: ^14.0.0
+
+
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,11 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class FacultyContactScreen extends StatefulWidget {
+  const FacultyContactScreen({super.key});
+
   @override
   _FacultyContactScreenState createState() => _FacultyContactScreenState();
 }
@@ -29,9 +32,12 @@ class _FacultyContactScreenState extends State<FacultyContactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Faculty Contacts'),
+        title: Text('Faculty Contacts'
+        ,style:TextStyle(
+          color: Colors.white,
+        ),),
         centerTitle: true,
-        backgroundColor: Colors.blue.shade900,
+        backgroundColor: Appcolors.AppBaseColor,
       ),
       body: facultyList.isEmpty
           ? Center(child: CircularProgressIndicator())
@@ -39,6 +45,7 @@ class _FacultyContactScreenState extends State<FacultyContactScreen> {
               itemCount: facultyList.length,
               itemBuilder: (context, index) {
                 final faculty = facultyList[index];
+                
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: BoxDecoration(
@@ -90,7 +97,7 @@ class _FacultyContactScreenState extends State<FacultyContactScreen> {
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue.shade900,
+                                    color: Appcolors.AppBaseColor,
                                   ),
                                 ),
                                 SizedBox(height: 8),
