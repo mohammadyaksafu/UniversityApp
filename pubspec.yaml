@@ -42,10 +42,8 @@ dependencies:
   flutter_map: ^8.1.0
   latlong2: ^0.9.1
   ar_flutter_plugin: ^0.6.0
+  shared_preferences: ^2.5.2
   flutter_local_notifications: ^14.0.0
-  firebase_core: ^3.12.1
-  cloud_firestore: ^5.6.5
-
 
 dev_dependencies:
   flutter_test:

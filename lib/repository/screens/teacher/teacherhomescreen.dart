@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(TeacherDashboardApp());
 }
 
@@ -23,14 +21,11 @@ class TeacherDashboardApp extends StatelessWidget {
 }
 
 class TeacherDashboardPage extends StatelessWidget {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  void _sendMessage(String type, String message) {
-    _firestore.collection('messages').add({
-      'type': type,
-      'message': message,
-      'timestamp': FieldValue.serverTimestamp(),
-    });
+  void _sendMessage(String type, String message) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? messageList = prefs.getStringList('messages') ?? [];
+    messageList.add('$type|$message');
+    await prefs.setStringList('messages', messageList);
   }
 
   @override

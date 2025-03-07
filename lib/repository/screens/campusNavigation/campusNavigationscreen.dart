@@ -1,3 +1,5 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
+import 'package:all_in_all_university_app/repository/screens/campusNavigation/Arnavigationscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -11,29 +13,29 @@ class CampusNavigationScreen extends StatefulWidget {
 }
 
 class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
-  final LatLng _mapCenter = LatLng(37.7749, -122.4194); // San Francisco coordinates
+  final LatLng _mapCenter = LatLng(23.707306, 90.415482);
   final double _initialZoom = 15;
 
   final List<Map<String, dynamic>> locations = [
     {
       'name': 'Main Library',
       'description': 'Open 8 AM - 10 PM',
-      'position': LatLng(37.7749, -122.4194),
+      'position': LatLng(23.707408, 90.415483),
     },
     {
       'name': 'Engineering Building',
       'description': 'Houses CS, EE, and ME departments',
-      'position': LatLng(37.7755, -122.4185),
+      'position': LatLng(23.707306, 90.415485),
     },
     {
       'name': 'Faculty Offices',
       'description': 'Meet your professors here',
-      'position': LatLng(37.7760, -122.4175),
+      'position': LatLng(23.707210, 90.415473),
     },
     {
       'name': 'Student Center',
       'description': 'Cafeteria, lounge, and club rooms',
-      'position': LatLng(37.7765, -122.4165),
+      'position': LatLng(23.707108, 90.415283),
     },
   ];
 
@@ -41,8 +43,10 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Campus Navigation & AR Map'),
-        backgroundColor: Colors.teal,
+        title: const Text('Campus Navigation & AR Map'
+        ,style: TextStyle(color: Colors.white),),
+        centerTitle: true,
+        backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Column(
         children: [
@@ -61,8 +65,8 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
                   markers: locations.map((location) {
                     return Marker(
                       point: location['position'],
-                      width: 80, // Increased width to accommodate text
-                      height: 80, // Increased height to accommodate text
+                      width: 80,
+                      height: 80,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -109,16 +113,28 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ARNavigationScreen(),
+                    builder: (context) => ARNavigationScreen(
+                      startLocation: locations[0]['position'], 
+                      endLocation: LatLng(23.707108, 90.415283), 
+                    ),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                textStyle: const TextStyle(fontSize: 18),
-                backgroundColor: Colors.teal,
+                textStyle: const TextStyle(
+                  fontSize: 18
+                  
+                  ),
+                backgroundColor:  Appcolors.AppBaseColor,
               ),
-              child: const Text('Use AR Navigation'),
+              child: const Text('Use AR Navigation',
+              style: TextStyle(
+                color: Colors.white,
+                
+              ),
+              textAlign: TextAlign.center,
+              ),
             ),
           ),
         ],
@@ -127,23 +143,4 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
   }
 }
 
-// New Screen for AR Navigation
-class ARNavigationScreen extends StatelessWidget {
-  const ARNavigationScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('AR Navigation'),
-        backgroundColor: Colors.teal,
-      ),
-      body: const Center(
-        child: Text(
-          'AR Navigation Feature Coming Soon!',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-}
