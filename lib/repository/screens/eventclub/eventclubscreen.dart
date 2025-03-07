@@ -87,7 +87,7 @@ class EventsTab extends StatelessWidget {
     },
   ];
 
-  const EventsTab({super.key});
+  EventsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +192,7 @@ class ClubsTab extends StatelessWidget {
     },
   ];
 
-  const ClubsTab({super.key});
+ ClubsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
