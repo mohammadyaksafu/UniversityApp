@@ -20,7 +20,6 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
 
     setState(() {
       _isLoading = true;
-<<<<<<< HEAD
       _response = '';
     });
 
