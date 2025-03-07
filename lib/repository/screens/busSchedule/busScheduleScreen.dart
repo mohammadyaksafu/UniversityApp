@@ -1,3 +1,4 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'notification_service.dart'; // Import the notification service
@@ -35,9 +36,15 @@ class BusScheduleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bus Routes & Schedules',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blueAccent,
+        title: const Text(
+          'Bus Routes & Schedules',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -51,22 +58,36 @@ class BusScheduleScreen extends StatelessWidget {
             return Card(
               elevation: 4,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: ListTile(
-                leading: const Icon(Icons.directions_bus,
-                    color: Colors.blueAccent, size: 30),
-                title: Text(route,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold)),
-                subtitle: Text('Timing: $time',
-                    style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                leading: const Icon(
+                  Icons.directions_bus,
+                  color: Appcolors.AppBaseColor,
+                  size: 30,
+                ),
+                title: Text(
+                  route,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                subtitle: Text(
+                  'Timing: $time',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                ),
                 trailing: IconButton(
-                  icon: const Icon(Icons.notifications, color: Colors.blueAccent),
+                  icon: const Icon(
+                    Icons.notifications,
+                    color: Appcolors.AppBaseColor,
+                  ),
                   onPressed: () async {
                     // Schedule a notification 10 minutes before the bus departure time
                     final departureTime = _parseTime(time.split(' - ')[0]);
-                    final notificationTime =
-                        departureTime.subtract(const Duration(minutes: 10));
+                    final notificationTime = departureTime.subtract(
+                      const Duration(minutes: 10),
+                    );
 
                     await notificationService.scheduleNotification(
                       id: index,
@@ -77,7 +98,8 @@ class BusScheduleScreen extends StatelessWidget {
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                          content: Text('Notification scheduled successfully!')),
+                        content: Text('Notification scheduled successfully!'),
+                      ),
                     );
                   },
                 ),
