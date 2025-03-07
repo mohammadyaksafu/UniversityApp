@@ -42,6 +42,7 @@ class BusScheduleScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        foregroundColor: Colors.white,
         backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Padding(

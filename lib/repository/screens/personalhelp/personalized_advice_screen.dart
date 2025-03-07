@@ -6,7 +6,8 @@ class PersonalizedAdviceScreen extends StatefulWidget {
   const PersonalizedAdviceScreen({super.key});
 
   @override
-  _PersonalizedAdviceScreenState createState() => _PersonalizedAdviceScreenState();
+  _PersonalizedAdviceScreenState createState() =>
+      _PersonalizedAdviceScreenState();
 }
 
 class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
@@ -40,6 +41,24 @@ Now, provide your advice:
 ''';
 
       // Use Gemini to generate personalized advice
+<<<<<<< HEAD
+      await Gemini.instance
+          .prompt(
+            parts: [
+              Part.text(input), // Send the user's input as a text part
+            ],
+          )
+          .then((value) {
+            setState(() {
+              _advice = value?.output ?? 'No advice available.';
+            });
+          })
+          .catchError((e) {
+            setState(() {
+              _advice = 'Error: $e';
+            });
+          });
+=======
       await Gemini.instance.prompt(parts: [
         Part.text(customPrompt), // Send the custom prompt
       ]).then((value) {
@@ -51,6 +70,7 @@ Now, provide your advice:
           _advice = 'Error: $e';
         });
       });
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
     } catch (e) {
       setState(() {
         _advice = 'Error: $e';
@@ -67,6 +87,8 @@ Now, provide your advice:
     return Scaffold(
       appBar: AppBar(
         title: Text('Personalized Advice'),
+        foregroundColor: Colors.white,
+
         backgroundColor: Appcolors.AppBaseColor,
         elevation: 0,
         centerTitle: true,
@@ -77,6 +99,30 @@ Now, provide your advice:
           children: [
             TextField(
               controller: _inputController,
+<<<<<<< HEAD
+
+              decoration: InputDecoration(
+                labelText: 'Enter your query or preference',
+                labelStyle: TextStyle(color: Appcolors.AppBaseColor),
+
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.AppBaseColor),
+                ),
+
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.AppBaseColor),
+                ),
+              ),
+
+              maxLines: 3,
+            ),
+
+            SizedBox(height: 16),
+
+            ElevatedButton(
+              onPressed: _isLoading ? null : _getAdvice,
+
+=======
               decoration: InputDecoration(
                 labelText: 'Enter your query or preference',
                 labelStyle: TextStyle(
@@ -98,6 +144,7 @@ Now, provide your advice:
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: _isLoading ? null : _getAdvice,
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
               style: ElevatedButton.styleFrom(
                 backgroundColor: Appcolors.AppBaseColor,
                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -105,6 +152,20 @@ Now, provide your advice:
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+<<<<<<< HEAD
+
+              child:
+                  _isLoading
+                      ? CircularProgressIndicator(color: Appcolors.AppBaseColor)
+                      : Text(
+                        'Get Advice',
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
+            ),
+
+            SizedBox(height: 16),
+
+=======
               child: _isLoading
                   ? CircularProgressIndicator(
                       color: Colors.white,
@@ -115,6 +176,7 @@ Now, provide your advice:
                     ),
             ),
             SizedBox(height: 16),
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
             if (_advice.isNotEmpty)
               Container(
                 padding: EdgeInsets.all(16),
@@ -124,10 +186,14 @@ Now, provide your advice:
                 ),
                 child: Text(
                   _advice,
+<<<<<<< HEAD
+                  style: TextStyle(color: Appcolors.AppBaseColor, fontSize: 16),
+=======
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                   ),
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
                 ),
               ),
           ],

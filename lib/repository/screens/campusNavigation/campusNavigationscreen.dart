@@ -43,9 +43,12 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Campus Navigation & AR Map'
-        ,style: TextStyle(color: Colors.white),),
+        title: const Text(
+          'Campus Navigation & AR Map',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        foregroundColor: Colors.white,
         backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Column(
@@ -62,39 +65,41 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
                   userAgentPackageName: 'com.example.app',
                 ),
                 MarkerLayer(
-                  markers: locations.map((location) {
-                    return Marker(
-                      point: location['position'],
-                      width: 80,
-                      height: 80,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            color: Colors.red,
-                            size: 40,
+                  markers:
+                      locations.map((location) {
+                        return Marker(
+                          point: location['position'],
+                          width: 80,
+                          height: 80,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.location_on,
+                                color: Colors.red,
+                                size: 40,
+                              ),
+                              Text(
+                                location['name'],
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            location['name'],
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
                 ),
                 RichAttributionWidget(
                   attributions: [
                     TextSourceAttribution(
                       'OpenStreetMap contributors',
                       onTap: () async {
-                        final Uri url =
-                            Uri.parse('https://www.openstreetmap.org/copyright');
+                        final Uri url = Uri.parse(
+                          'https://www.openstreetmap.org/copyright',
+                        );
                         if (await canLaunchUrl(url)) {
                           await launchUrl(url);
                         }
@@ -113,27 +118,26 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ARNavigationScreen(
-                      startLocation: locations[0]['position'], 
-                      endLocation: LatLng(23.707108, 90.415283), 
-                    ),
+                    builder:
+                        (context) => ARNavigationScreen(
+                          startLocation: locations[0]['position'],
+                          endLocation: LatLng(23.707108, 90.415283),
+                        ),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                textStyle: const TextStyle(
-                  fontSize: 18
-                  
-                  ),
-                backgroundColor:  Appcolors.AppBaseColor,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 15,
+                ),
+                textStyle: const TextStyle(fontSize: 18),
+                backgroundColor: Appcolors.AppBaseColor,
               ),
-              child: const Text('Use AR Navigation',
-              style: TextStyle(
-                color: Colors.white,
-                
-              ),
-              textAlign: TextAlign.center,
+              child: const Text(
+                'Use AR Navigation',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -142,5 +146,3 @@ class _CampusNavigationScreenState extends State<CampusNavigationScreen> {
     );
   }
 }
-
-

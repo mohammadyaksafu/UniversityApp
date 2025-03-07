@@ -34,6 +34,7 @@ class _EventClubScreenState extends State<EventClubScreen>
           'Event & Club Management',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
+        foregroundColor: Colors.white,
         backgroundColor: Appcolors.AppBaseColor,
         elevation: 10,
         shadowColor: Appcolors.AppBaseColor,
