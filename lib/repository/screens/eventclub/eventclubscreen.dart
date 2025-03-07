@@ -86,6 +86,8 @@ class EventsTab extends StatelessWidget {
     },
   ];
 
+  const EventsTab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -189,6 +191,8 @@ class ClubsTab extends StatelessWidget {
     },
   ];
 
+  const ClubsTab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -270,7 +274,7 @@ class GuardButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget child;
 
-  const GuardButton({
+  const GuardButton({super.key, 
     required this.condition,
     required this.onPressed,
     required this.child,

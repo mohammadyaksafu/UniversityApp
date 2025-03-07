@@ -1,6 +1,5 @@
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'notification_service.dart'; // Import the notification service
 
 class BusScheduleScreen extends StatelessWidget {

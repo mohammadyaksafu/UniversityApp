@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdatesAndAlertsScreen extends StatefulWidget {
+  const UpdatesAndAlertsScreen({super.key});
+
   @override
   _UpdatesAndAlertsScreenState createState() => _UpdatesAndAlertsScreenState();
 }

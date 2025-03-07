@@ -6,18 +6,15 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 
 
 Future<void> main() async {
-  // Ensure Flutter binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-
-  // Initialize Gemini (AI service)
   Gemini.init(apiKey: 'AIzaSyAhzZgGcf9dst7xlz5MGWyNcXV1BCO3VOA');
-
-  // Run the app
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
      return MaterialApp(

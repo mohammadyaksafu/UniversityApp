@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TeacherDashboardApp extends StatelessWidget {
+  const TeacherDashboardApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,6 +18,8 @@ class TeacherDashboardApp extends StatelessWidget {
 }
 
 class TeacherDashboardPage extends StatefulWidget {
+  const TeacherDashboardPage({super.key});
+
   @override
   _TeacherDashboardPageState createState() => _TeacherDashboardPageState();
 }
