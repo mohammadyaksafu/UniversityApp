@@ -1,7 +1,5 @@
-import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 
 class FacultyContactScreen extends StatefulWidget {
   const FacultyContactScreen({super.key});
@@ -11,31 +9,65 @@ class FacultyContactScreen extends StatefulWidget {
 }
 
 class _FacultyContactScreenState extends State<FacultyContactScreen> {
-  List<Map<String, dynamic>> facultyList = [];
+  // Local faculty data with real online image URLs
+  final List<Map<String, dynamic>> facultyList = [
+    {
+      'name': 'Dr. John Doe',
+      'department': 'Computer Science',
+      'email': 'john.doe@university.edu',
+      'phone': '+1234567890',
+      'whatsapp': '+1234567890',
+      'office': 'Building A, Room 101',
+      'image':
+          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Real online image
+    },
+    {
+      'name': 'Dr. Jane Smith',
+      'department': 'Mathematics',
+      'email': 'jane.smith@university.edu',
+      'phone': '+0987654321',
+      'whatsapp': '+0987654321',
+      'office': 'Building B, Room 202',
+      'image':
+          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Real online image
+    },
+    {
+      'name': 'Dr. Emily Johnson',
+      'department': 'Physics',
+      'email': 'emily.johnson@university.edu',
+      'phone': '+1122334455',
+      'whatsapp': '+1122334455',
+      'office': 'Building C, Room 303',
+      'image':
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Real online image
+    },
+    {
+      'name': 'Dr. Emily Johnson',
+      'department': 'Physics',
+      'email': 'emily.johnson@university.edu',
+      'phone': '+1122334455',
+      'whatsapp': '+1122334455',
+      'office': 'Building C, Room 303',
+      'image':
+          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', // Real online image
+    },
+  ];
 
   @override
   void initState() {
     super.initState();
-    fetchFacultyContacts();
-  }
-
-  Future<void> fetchFacultyContacts() async {
-    final response = await http.get(Uri.parse('http://localhost:5000/facultycontact'));
-    if (response.statusCode == 200) {
-      setState(() {
-        facultyList = List<Map<String, dynamic>>.from(json.decode(response.body));
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Faculty Contacts'
-        ,style:TextStyle(
-          color: Colors.white,
-        ),),
+        title: Text(
+          'Faculty Contacts',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Appcolors.AppBaseColor,
       ),
@@ -45,7 +77,7 @@ class _FacultyContactScreenState extends State<FacultyContactScreen> {
               itemCount: facultyList.length,
               itemBuilder: (context, index) {
                 final faculty = facultyList[index];
-                
+
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   decoration: BoxDecoration(

@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:all_in_all_university_app/repository/screens/busSchedule/busScheduleScreen.dart';
 import 'package:all_in_all_university_app/repository/screens/cafeteria/cafeteriamenuScreen.dart';
@@ -6,7 +9,6 @@ import 'package:all_in_all_university_app/repository/screens/classShedule/classS
 import 'package:all_in_all_university_app/repository/screens/eventclub/eventclubscreen.dart';
 import 'package:all_in_all_university_app/repository/screens/personalhelp/personalhelpAi.dart';
 import 'package:all_in_all_university_app/repository/widgets/FeatureTile.dart';
-import 'package:flutter/material.dart';
 
 class UniversityHome extends StatelessWidget {
   final String userRole;
@@ -51,10 +53,10 @@ class UniversityHome extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
-                crossAxisCount: 2, 
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio:1.6,
+                crossAxisCount:2,
+                crossAxisSpacing: 40,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1.8,
                 children: [
                   FeatureTile.buildFeatureTile(
                     context,
@@ -95,11 +97,71 @@ class UniversityHome extends StatelessWidget {
                     'Help Page',
                     PersonalHelpAI(),
                   ),
+                  FeatureTile.buildFeatureTile(
+                    context,
+                    Icons.announcement,
+                    'Updates & Alerts',
+                    UpdatesAndAlertsScreen(),
+                  ),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class UpdatesAndAlertsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Updates & Alerts'),
+        centerTitle: true,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('messages')
+            .orderBy('timestamp', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No messages yet.'));
+          }
+
+          // Wrap the ListView.builder in a RefreshIndicator
+          return RefreshIndicator(
+            onRefresh: () async {
+              // Force a refresh of the stream
+              // This is optional and works well with Firestore's real-time updates
+              await FirebaseFirestore.instance
+                  .collection('messages')
+                  .get();
+            },
+            child: ListView.builder(
+              padding: EdgeInsets.all(16),
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                var message = snapshot.data!.docs[index];
+                return Card(
+                  margin: EdgeInsets.only(bottom: 16),
+                  child: ListTile(
+                    title: Text(
+                      message['type'],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(message['message']),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

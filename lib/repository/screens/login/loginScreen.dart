@@ -1,3 +1,4 @@
+import 'package:all_in_all_university_app/repository/screens/teacher/teacherhomescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:all_in_all_university_app/repository/screens/homepage/homepage.dart';
@@ -72,6 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
         break;
       // Implement other cases as needed
       case 'Teacher':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TeacherDashboardApp(), 
+          ),
+        );
         // Navigate to Teacher Dashboard
         break;
       case 'Cafeteria Manager':

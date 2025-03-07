@@ -43,7 +43,8 @@ dependencies:
   latlong2: ^0.9.1
   ar_flutter_plugin: ^0.6.0
   flutter_local_notifications: ^14.0.0
-
+  firebase_core: ^3.12.1
+  cloud_firestore: ^5.6.5
 
 
 dev_dependencies:
