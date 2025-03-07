@@ -1,3 +1,5 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
+import 'package:all_in_all_university_app/repository/screens/homepage/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:all_in_all_university_app/repository/screens/eventclub/airecommandationscreen.dart';
 
@@ -32,9 +34,9 @@ class _EventClubScreenState extends State<EventClubScreen>
           'Event & Club Management',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Appcolors.AppBaseColor,
         elevation: 10,
-        shadowColor: Colors.deepPurple.withOpacity(0.5),
+        shadowColor: Appcolors.AppBaseColor,
         bottom: TabBar(
           controller: _tabController,
           indicatorColor: Colors.white,
@@ -43,17 +45,13 @@ class _EventClubScreenState extends State<EventClubScreen>
           tabs: [
             Tab(icon: Icon(Icons.event), text: 'Events'),
             Tab(icon: Icon(Icons.group), text: 'Clubs'),
-            Tab(icon: Icon(Icons.auto_awesome), text: 'AI Recommendations'),
+            Tab(icon: Icon(Icons.auto_awesome), text: 'Recommendations'),
           ],
         ),
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          EventsTab(),
-          ClubsTab(),
-          AIRecommendationPage(),
-        ],
+        children: [EventsTab(), ClubsTab(), AIRecommendationPage()],
       ),
     );
   }
@@ -63,8 +61,8 @@ class EventsTab extends StatelessWidget {
   // Static data for events
   final List<Map<String, dynamic>> events = [
     {
-      'title': 'Tech Conference 2023',
-      'date': '2023-11-15',
+      'title': 'Tech Conference 2025',
+      'date': '2025-03-24',
       'time': '10:00 AM',
       'location': 'University Auditorium',
       'organizer': 'Computer Science Club',
@@ -72,7 +70,7 @@ class EventsTab extends StatelessWidget {
     },
     {
       'title': 'Cultural Fest',
-      'date': '2023-12-01',
+      'date': '2025-04-12',
       'time': '5:00 PM',
       'location': 'Main Ground',
       'organizer': 'Cultural Society',
@@ -80,7 +78,7 @@ class EventsTab extends StatelessWidget {
     },
     {
       'title': 'Startup Pitch Competition',
-      'date': '2023-11-20',
+      'date': '2025-4-20',
       'time': '2:00 PM',
       'location': 'Business School',
       'organizer': 'Entrepreneurship Club',
@@ -114,8 +112,7 @@ class EventsTab extends StatelessWidget {
                 children: [
                   Text(
                     event['title'],
-                    style: TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -130,7 +127,7 @@ class EventsTab extends StatelessWidget {
                   SizedBox(height: 8),
                   Text(
                     'Organized by: ${event['organizer']}',
-                    style: TextStyle(color: Colors.deepPurple),
+                    style: TextStyle(color: Colors.black),
                   ),
                   SizedBox(height: 12),
                   Align(
@@ -140,14 +137,19 @@ class EventsTab extends StatelessWidget {
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content: Text('RSVP confirmed for ${event['title']}')),
+                            content: Text(
+                              'RSVP confirmed for ${event['title']}',
+                            ),
+                          ),
                         );
                       },
                       child: Container(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
                         decoration: BoxDecoration(
-                          color: Colors.deepPurple,
+                          color: Appcolors.AppBaseColor,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -210,7 +212,7 @@ class ClubsTab extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Icon(Icons.group, color: Colors.deepPurple, size: 40),
+                  Icon(Icons.group, color: Appcolors.AppBaseColor, size: 40),
                   SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -219,8 +221,9 @@ class ClubsTab extends StatelessWidget {
                         Text(
                           club['name'],
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         SizedBox(height: 4),
                         Text(
@@ -234,15 +237,16 @@ class ClubsTab extends StatelessWidget {
                     condition: !isMember,
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Joined ${club['name']}')),
+                        SnackBar(content: Text('Joined ${club['name']}')),
                       );
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple,
+                        color: Appcolors.AppBaseColor,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
@@ -275,10 +279,7 @@ class GuardButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return condition
-        ? InkWell(
-            onTap: onPressed,
-            child: child,
-          )
+        ? InkWell(onTap: onPressed, child: child)
         : SizedBox.shrink();
   }
 }

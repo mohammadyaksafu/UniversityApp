@@ -1,3 +1,4 @@
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 
@@ -20,18 +21,9 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
       'name': 'Photography Club',
       'description': 'Capture the world through your lens.',
     },
-    {
-      'name': 'Drama Club',
-      'description': 'Express yourself on stage.',
-    },
-    {
-      'name': 'Robotics Club',
-      'description': 'Build, code, and innovate.',
-    },
-    {
-      'name': 'Music Club',
-      'description': 'Explore your musical talents.',
-    },
+    {'name': 'Drama Club', 'description': 'Express yourself on stage.'},
+    {'name': 'Robotics Club', 'description': 'Build, code, and innovate.'},
+    {'name': 'Music Club', 'description': 'Explore your musical talents.'},
     {
       'name': 'Debate Club',
       'description': 'Sharpen your public speaking skills.',
@@ -63,28 +55,32 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
       ''';
 
       // Use Gemini to generate recommendations
-      await Gemini.instance.prompt(
-        parts: [Part.text(prompt)],
-      ).then((value) {
-        // Process the response
-        final responseText = value?.output ?? '';
+      await Gemini.instance
+          .prompt(parts: [Part.text(prompt)])
+          .then((value) {
+            // Process the response
+            final responseText = value?.output ?? '';
 
-        // Split the response into individual recommendations
-        final List<String> fetchedRecommendations = responseText
-            .split('\n')
-            .where((recommendation) =>
-                recommendation.trim().isNotEmpty &&
-                !recommendation.toLowerCase().contains('here are'))
-            .toList();
+            // Split the response into individual recommendations
+            final List<String> fetchedRecommendations =
+                responseText
+                    .split('\n')
+                    .where(
+                      (recommendation) =>
+                          recommendation.trim().isNotEmpty &&
+                          !recommendation.toLowerCase().contains('here are'),
+                    )
+                    .toList();
 
-        setState(() {
-          recommendations = fetchedRecommendations;
-        });
-      }).catchError((e) {
-        setState(() {
-          errorMessage = 'Error fetching recommendations: $e';
-        });
-      });
+            setState(() {
+              recommendations = fetchedRecommendations;
+            });
+          })
+          .catchError((e) {
+            setState(() {
+              errorMessage = 'Error fetching recommendations: $e';
+            });
+          });
     } catch (e) {
       setState(() {
         errorMessage = 'Error: $e';
@@ -101,7 +97,7 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('AI Event Recommendations'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -125,10 +121,7 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
               Center(child: CircularProgressIndicator())
             else if (errorMessage.isNotEmpty)
               Center(
-                child: Text(
-                  errorMessage,
-                  style: TextStyle(color: Colors.red),
-                ),
+                child: Text(errorMessage, style: TextStyle(color: Colors.red)),
               )
             else if (recommendations.isEmpty)
               Center(child: Text('No recommendations available'))
