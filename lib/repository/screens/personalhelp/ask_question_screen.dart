@@ -20,13 +20,24 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
 
     setState(() {
       _isLoading = true;
-      _response = ''; 
+      _response = ''; // Clear previous response
     });
 
     try {
-      
+      // Custom prompt to restrict responses to university-related topics
+      final customPrompt = '''
+You are a helpful assistant for university-related queries. 
+If the question is related to university topics (e.g., academics, courses, exams, campus life, etc.), provide a detailed and accurate answer.
+If the question is unrelated to university topics, respond with: "Sorry, I am unable to assist with that."
+
+Question: "$question"
+
+Answer:
+''';
+
+      // Use Gemini to generate a response
       await Gemini.instance.prompt(parts: [
-        Part.text(question), 
+        Part.text(customPrompt), // Send the custom prompt
       ]).then((value) {
         setState(() {
           _response = value?.output ?? 'No response from Gemini';
@@ -70,90 +81,78 @@ class _AskQuestionScreenState extends State<AskQuestionScreen> {
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: [
+              // Input Card
               Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
-               
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
-                  
                   child: TextField(
                     controller: _controller,
-                    
                     decoration: InputDecoration(
                       labelText: 'Enter your question',
                       labelStyle: TextStyle(
-                        color: Colors.black
-                        ),
-                      
+                        color: Colors.black,
+                      ),
                       border: InputBorder.none,
-                      
                       icon: Icon(
                         Icons.question_answer,
-                       color: Appcolors.AppBaseColor
-                       ),
+                        color: Appcolors.AppBaseColor,
+                      ),
                       hintText: 'Type your question here...',
                       hintStyle: TextStyle(
-                        color: Colors.grey
-                        ),
+                        color: Colors.grey,
+                      ),
                     ),
                     maxLines: 3,
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
               ),
-              
               SizedBox(height: 20),
-              
+              // Ask Button
               AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 width: _isLoading ? 60 : 150,
                 height: 50,
-                
                 decoration: BoxDecoration(
-                color: Appcolors.AppBaseColor,
-                borderRadius: BorderRadius.circular(
-                  _isLoading ? 20 : 10),
+                  color: Appcolors.AppBaseColor,
+                  borderRadius: BorderRadius.circular(
+                    _isLoading ? 20 : 10),
                 ),
-                
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _sendQuestion,
-                  
                   style: ElevatedButton.styleFrom(
                     shadowColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(_isLoading ? 30 : 10),
                     ),
                   ),
-                  
                   child: _isLoading
                       ? CircularProgressIndicator(
-                        color: Appcolors.AppBaseColor)
+                          color: Colors.white,
+                        )
                       : Text(
                           'Ask',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                         ),
                 ),
               ),
-             
               SizedBox(height: 20),
-             
+              // Response Card
               if (_response.isNotEmpty)
                 Expanded(
-                  
                   child: Card(
                     elevation: 5,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
-                   
-                   
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
                       child: SingleChildScrollView(
