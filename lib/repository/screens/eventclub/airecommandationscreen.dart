@@ -97,6 +97,7 @@ class _AIRecommendationPageState extends State<AIRecommendationPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('AI Event Recommendations'),
+        foregroundColor: Colors.white,
         backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Padding(

@@ -14,12 +14,11 @@ class PersonalHelpAI extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Personal Help AI',
-          style: TextStyle(
-                fontSize: 24,
-                color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 24, color: Colors.white),
+          textAlign: TextAlign.center,
         ),
+        foregroundColor: Colors.white,
+
         backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Padding(
@@ -28,17 +27,14 @@ class PersonalHelpAI extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-                child: Text(
-                  'How can I assist you today?',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              child: Text(
+                'How can I assist you today?',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+            ),
 
             SizedBox(height: 20),
-            
+
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -94,35 +90,32 @@ class PersonalHelpAI extends StatelessWidget {
                             builder: (context) => AskQuestionScreen(),
                           ),
                         );
-                      }else if (index == 1) {
+                      } else if (index == 1) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ScheduleAssistanceScreen(),
                           ),
                         );
-                      }
-                      else if (index == 2) {
+                      } else if (index == 2) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => PersonalizedAdviceScreen(),
                           ),
                         );
-                      }
-
-                       else if (index == 3) {
+                      } else if (index == 3) {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => FacultyContactScreen(),
                           ),
                         );
-                      } 
+                      }
                     },
-                    
+
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10.0),
-                        
+
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
@@ -132,16 +125,14 @@ class PersonalHelpAI extends StatelessWidget {
                           ),
                         ],
                       ),
-                      
-                      
+
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(icon, color: color, size: 40),
-                          
+
                           SizedBox(height: 10),
-                          
-                          
+
                           Text(
                             title,
                             style: TextStyle(
@@ -151,7 +142,7 @@ class PersonalHelpAI extends StatelessWidget {
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 5),
-                          
+
                           Text(
                             subtitle,
                             style: TextStyle(

@@ -5,7 +5,8 @@ class ScheduleAssistanceScreen extends StatefulWidget {
   const ScheduleAssistanceScreen({super.key});
 
   @override
-  _ScheduleAssistanceScreenState createState() => _ScheduleAssistanceScreenState();
+  _ScheduleAssistanceScreenState createState() =>
+      _ScheduleAssistanceScreenState();
 }
 
 class _ScheduleAssistanceScreenState extends State<ScheduleAssistanceScreen> {
@@ -83,19 +84,16 @@ class _ScheduleAssistanceScreenState extends State<ScheduleAssistanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedule Assistance',
-        style: TextStyle(
-          fontSize: 24,
-          color: Colors.white,
-          ),
+        title: Text(
+          'Schedule Assistance',
+          style: TextStyle(fontSize: 24, color: Colors.white),
         ),
         centerTitle: true,
+        foregroundColor: Colors.white,
+
         backgroundColor: Appcolors.AppBaseColor,
         actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: _addScheduleItem,
-          ),
+          IconButton(icon: Icon(Icons.add), onPressed: _addScheduleItem),
         ],
       ),
       body: ListView.builder(
@@ -104,7 +102,9 @@ class _ScheduleAssistanceScreenState extends State<ScheduleAssistanceScreen> {
           final item = _scheduleItems[index];
           return ListTile(
             title: Text(item['title']),
-            subtitle: Text('${item['description']} at ${item['time'].format(context)}'),
+            subtitle: Text(
+              '${item['description']} at ${item['time'].format(context)}',
+            ),
             trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {

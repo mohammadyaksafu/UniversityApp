@@ -17,11 +17,12 @@ class ARNavigationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AR Navigation',  
-        style: TextStyle(
-          color: Colors.white,
-        ),),
+        title: const Text(
+          'AR Navigation',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        foregroundColor: Colors.white,
         backgroundColor: Appcolors.AppBaseColor,
       ),
       body: Column(
@@ -34,7 +35,8 @@ class ARNavigationScreen extends StatelessWidget {
               ),
               children: [
                 TileLayer(
-                  urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate:
+                      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                   subdomains: ['a', 'b', 'c'],
                 ),
                 MarkerLayer(
@@ -78,28 +80,34 @@ class ARNavigationScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PathScreen(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => PathScreen(
                               startLocation: startLocation,
                               endLocation: endLocation,
                             ),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Appcolors.AppBaseColor, // Add background color
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
-                      child: Text(
-                        'Follow the path in AR!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Appcolors.AppBaseColor, // Add background color
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
                     ),
+                  ),
+                  child: Text(
+                    'Follow the path in AR!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -128,10 +136,7 @@ class PathScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: FlutterMap(
-        options: MapOptions(
-          initialCenter: startLocation,
-          initialZoom: 15.0,
-        ),
+        options: MapOptions(initialCenter: startLocation, initialZoom: 15.0),
         children: [
           TileLayer(
             urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -153,11 +158,7 @@ class PathScreen extends StatelessWidget {
                 point: endLocation,
                 width: 40,
                 height: 40,
-                child: const Icon(
-                  Icons.flag,
-                  color: Colors.green,
-                  size: 40,
-                ),
+                child: const Icon(Icons.flag, color: Colors.green, size: 40),
               ),
             ],
           ),

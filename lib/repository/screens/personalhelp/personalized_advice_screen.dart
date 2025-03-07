@@ -6,7 +6,8 @@ class PersonalizedAdviceScreen extends StatefulWidget {
   const PersonalizedAdviceScreen({super.key});
 
   @override
-  _PersonalizedAdviceScreenState createState() => _PersonalizedAdviceScreenState();
+  _PersonalizedAdviceScreenState createState() =>
+      _PersonalizedAdviceScreenState();
 }
 
 class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
@@ -25,17 +26,22 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
 
     try {
       // Use Gemini to generate personalized advice
-      await Gemini.instance.prompt(parts: [
-        Part.text(input), // Send the user's input as a text part
-      ]).then((value) {
-        setState(() {
-          _advice = value?.output ?? 'No advice available.';
-        });
-      }).catchError((e) {
-        setState(() {
-          _advice = 'Error: $e';
-        });
-      });
+      await Gemini.instance
+          .prompt(
+            parts: [
+              Part.text(input), // Send the user's input as a text part
+            ],
+          )
+          .then((value) {
+            setState(() {
+              _advice = value?.output ?? 'No advice available.';
+            });
+          })
+          .catchError((e) {
+            setState(() {
+              _advice = 'Error: $e';
+            });
+          });
     } catch (e) {
       setState(() {
         _advice = 'Error: $e';
@@ -52,6 +58,8 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Personalized Advice'),
+        foregroundColor: Colors.white,
+
         backgroundColor: Appcolors.AppBaseColor,
         elevation: 0,
         centerTitle: true,
@@ -62,36 +70,29 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
         child: Column(
           children: [
             TextField(
-              
               controller: _inputController,
-              
+
               decoration: InputDecoration(
                 labelText: 'Enter your query or preference',
-                labelStyle: TextStyle(
-                  color: Appcolors.AppBaseColor
-                  ),
-               
+                labelStyle: TextStyle(color: Appcolors.AppBaseColor),
+
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Appcolors.AppBaseColor
-                    ),
+                  borderSide: BorderSide(color: Appcolors.AppBaseColor),
                 ),
-               
+
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Appcolors.AppBaseColor
-                    ),
+                  borderSide: BorderSide(color: Appcolors.AppBaseColor),
                 ),
               ),
-              
+
               maxLines: 3,
             ),
-          
+
             SizedBox(height: 16),
-            
+
             ElevatedButton(
               onPressed: _isLoading ? null : _getAdvice,
-              
+
               style: ElevatedButton.styleFrom(
                 backgroundColor: Appcolors.AppBaseColor,
                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -99,21 +100,18 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              
-              child: _isLoading
-                  ? CircularProgressIndicator(
-                    color: Appcolors.AppBaseColor
-                    )
-                  : Text(
-                      'Get Advice',
-                      style: TextStyle(fontSize: 16,
-                       color: Colors.black
-                       ),
-                    ),
+
+              child:
+                  _isLoading
+                      ? CircularProgressIndicator(color: Appcolors.AppBaseColor)
+                      : Text(
+                        'Get Advice',
+                        style: TextStyle(fontSize: 16, color: Colors.black),
+                      ),
             ),
-            
+
             SizedBox(height: 16),
-            
+
             if (_advice.isNotEmpty)
               Container(
                 padding: EdgeInsets.all(16),
@@ -123,10 +121,7 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
                 ),
                 child: Text(
                   _advice,
-                  style: TextStyle(
-                    color: Appcolors.AppBaseColor,
-                    fontSize: 16,
-                  ),
+                  style: TextStyle(color: Appcolors.AppBaseColor, fontSize: 16),
                 ),
               ),
           ],
