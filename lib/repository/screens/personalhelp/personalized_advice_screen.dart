@@ -25,7 +25,23 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
     });
 
     try {
+      // Custom prompt template for personalized advice
+      final customPrompt = '''
+You are a helpful and friendly assistant. Provide personalized advice based on the following input:
+- User Input: "$input"
+
+Guidelines for your response:
+1. Be concise and clear.
+2. Provide actionable steps or suggestions.
+3. Use a friendly and supportive tone.
+4. If the input is unclear, ask for clarification.
+5. Tailor the advice to the user's specific needs.
+
+Now, provide your advice:
+''';
+
       // Use Gemini to generate personalized advice
+<<<<<<< HEAD
       await Gemini.instance
           .prompt(
             parts: [
@@ -42,6 +58,19 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
               _advice = 'Error: $e';
             });
           });
+=======
+      await Gemini.instance.prompt(parts: [
+        Part.text(customPrompt), // Send the custom prompt
+      ]).then((value) {
+        setState(() {
+          _advice = value?.output ?? 'No advice available.';
+        });
+      }).catchError((e) {
+        setState(() {
+          _advice = 'Error: $e';
+        });
+      });
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
     } catch (e) {
       setState(() {
         _advice = 'Error: $e';
@@ -65,12 +94,12 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        // Wrap the Column in a SingleChildScrollView
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: _inputController,
+<<<<<<< HEAD
 
               decoration: InputDecoration(
                 labelText: 'Enter your query or preference',
@@ -93,6 +122,29 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
             ElevatedButton(
               onPressed: _isLoading ? null : _getAdvice,
 
+=======
+              decoration: InputDecoration(
+                labelText: 'Enter your query or preference',
+                labelStyle: TextStyle(
+                  color: Appcolors.AppBaseColor,
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Appcolors.AppBaseColor,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Appcolors.AppBaseColor,
+                  ),
+                ),
+              ),
+              maxLines: 3,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _isLoading ? null : _getAdvice,
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
               style: ElevatedButton.styleFrom(
                 backgroundColor: Appcolors.AppBaseColor,
                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -100,6 +152,7 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+<<<<<<< HEAD
 
               child:
                   _isLoading
@@ -112,16 +165,35 @@ class _PersonalizedAdviceScreenState extends State<PersonalizedAdviceScreen> {
 
             SizedBox(height: 16),
 
+=======
+              child: _isLoading
+                  ? CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                  : Text(
+                      'Get Advice',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+            ),
+            SizedBox(height: 16),
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
             if (_advice.isNotEmpty)
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Appcolors.AppBaseColor,
+                  color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
                   _advice,
+<<<<<<< HEAD
                   style: TextStyle(color: Appcolors.AppBaseColor, fontSize: 16),
+=======
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+>>>>>>> 16e7463995442355ccf2de6481b659adcf2baaa8
                 ),
               ),
           ],

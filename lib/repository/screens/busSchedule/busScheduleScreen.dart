@@ -5,10 +5,9 @@ import 'notification_service.dart'; // Import the notification service
 
 class BusScheduleScreen extends StatelessWidget {
   final List<Map<String, String>> busSchedules = [
-    {'route': 'Route A', 'time': '08:00 AM - 10:00 PM'},
-    {'route': 'Route B', 'time': '07:30 AM - 09:30 PM'},
-    {'route': 'Route C', 'time': '09:00 AM - 11:00 PM'},
-    {'route': 'Route D', 'time': '06:45 AM - 08:45 PM'},
+    {'route': 'MIST -Dhaka Medical', 'time': '08:00 AM - 10:00 PM'},
+    {'route': 'MIST - ECB', 'time': '07:30 AM - 09:30 PM'},
+    {'route': 'MIST - Tongi', 'time': '09:00 AM - 11:00 PM'},
   ];
 
   final NotificationService notificationService = NotificationService();

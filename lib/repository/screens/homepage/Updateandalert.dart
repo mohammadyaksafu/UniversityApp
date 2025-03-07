@@ -1,4 +1,5 @@
 
+import 'package:all_in_all_university_app/domain/constant/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,6 +40,7 @@ class _UpdatesAndAlertsScreenState extends State<UpdatesAndAlertsScreen> {
       appBar: AppBar(
         title: Text('Updates & Alerts'),
         centerTitle: true,
+        backgroundColor: Appcolors.AppBaseColor,
       ),
       body: RefreshIndicator(
         onRefresh: _refreshMessages,
